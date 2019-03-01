@@ -51,9 +51,9 @@ def index_files(path_to_master_file):
 
     except Exception as e:
         logging.error("The indexing algorithm failed. " + json.dumps({"error": str(e)}))
-        abort(500, {"message": "Internal server error. See server logs for more details."})
+        abort(500, {"is_success": False, "message": "Internal server error. See server logs for more details."})
 
-    return jsonify({"message": "File indexing completed in " + str(stop - start) + "seconds."})
+    return jsonify({"is_success": True, "message": "File indexing completed in " + str(stop - start) + "seconds."})
 
 
 @APP.route('/file-indexer/api/v1/search/<word>')
@@ -66,11 +66,11 @@ def search_files(word):
 
     if MASTER_WORDS_INDEX:
         if word in MASTER_WORDS_INDEX:
-            return jsonify({"message": "Successfully retrived!", "result": MASTER_WORDS_INDEX[word]})
+            return jsonify({"is_success": True, "message": "Successfully retrived!", "result": MASTER_WORDS_INDEX[word]})
         else:
-            return jsonify({"message": "Word not found in any file!", "result": None})
+            return jsonify({"is_success": True, "message": "Word not found in any file!", "result": None})
     else:
-        return jsonify({"message": "No files indexed yet. Call /file-indexer/api/v1/index/ first.", "result": None})
+        return jsonify({"is_success": False, "message": "No files indexed yet. Call /file-indexer/api/v1/index/ first.", "result": None})
 
 
 @APP.route('/file-indexer/api/v1/words')
@@ -82,9 +82,9 @@ def list_words_in_index():
     logging.info("Request from ip: " + str(request.remote_addr) + ", url: " + str(request.url))
 
     if MASTER_WORDS_INDEX:
-        return jsonify({"message": "Successfully retrived!", "result": list(MASTER_WORDS_INDEX.keys())})
+        return jsonify({"is_success": True, "message": "Successfully retrived!", "result": list(MASTER_WORDS_INDEX.keys())})
     else:
-        return jsonify({"message": "No files indexed yet. Call /file-indexer/api/v1/index/ first.", "result": None})
+        return jsonify({"is_success": False, "message": "No files indexed yet. Call /file-indexer/api/v1/index/ first.", "result": None})
 
 
 if __name__ == '__main__':
