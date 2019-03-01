@@ -1,0 +1,2 @@
+./file_indexer/unit_tests/data/test_file_1.txt
+./file_indexer/unit_tests/data/test_file_2.txt

@@ -70,48 +70,48 @@ def merge_words_indices(words_indices):
     return master_words_index
 
 
-def unified_indexer(master_file_path):
-    '''
-    Indexes all files present in the master_file_path text file, serially (NO divide and conquer)
-
-    :param master_file_path: path to the master file to get the list of files to processed
-    :type master_file_path: str
-
-    :return: master_words_index dictionary
-    :rtype: dict
-    '''
-    master_words_index = defaultdict(words_index_entry)
-
-    with open(master_file_path, "r") as file_obj:
-        for text_file_path in file_obj.readlines():
-            file_name = ntpath.basename(text_file_path.strip())
-            with open(text_file_path.strip(), "r", encoding="latin_1") as file_obj:
-                file_content = file_obj.read()
-
-                # tokenize the file's contents based on Penn Treebank's TreebankWordTokenizer
-                tokens = nltk.word_tokenize(file_content)
-
-                for token in tokens:
-                    master_words_index[token]["file_wise_counts"][file_name] += 1
-                    master_words_index[token]["total_count"] += 1
-
-    return master_words_index
-
-
-def serial_indexer(master_file_path):
-    '''
-    Indexes all files present in the master_file_path text file, serially (divide and conquer)
-
-    :param master_file_path: path to the master file to get the list of files to processed
-    :type master_file_path: str
-
-    :return: master_words_index dictionary
-    :rtype: dict
-    '''
-    with open(master_file_path, "r") as file_obj:
-        text_file_paths = [text_file_path.strip() for text_file_path in file_obj.readlines()]
-
-    return merge_words_indices([index(text_file_path) for text_file_path in text_file_paths])
+# def unified_indexer(master_file_path):
+#     '''
+#     Indexes all files present in the master_file_path text file, serially (NO divide and conquer)
+#
+#     :param master_file_path: path to the master file to get the list of files to processed
+#     :type master_file_path: str
+#
+#     :return: master_words_index dictionary
+#     :rtype: dict
+#     '''
+#     master_words_index = defaultdict(words_index_entry)
+#
+#     with open(master_file_path, "r") as file_obj:
+#         for text_file_path in file_obj.readlines():
+#             file_name = ntpath.basename(text_file_path.strip())
+#             with open(text_file_path.strip(), "r", encoding="latin_1") as file_obj:
+#                 file_content = file_obj.read()
+#
+#                 # tokenize the file's contents based on Penn Treebank's TreebankWordTokenizer
+#                 tokens = nltk.word_tokenize(file_content)
+#
+#                 for token in tokens:
+#                     master_words_index[token]["file_wise_counts"][file_name] += 1
+#                     master_words_index[token]["total_count"] += 1
+#
+#     return master_words_index
+#
+#
+# def serial_indexer(master_file_path):
+#     '''
+#     Indexes all files present in the master_file_path text file, serially (divide and conquer)
+#
+#     :param master_file_path: path to the master file to get the list of files to processed
+#     :type master_file_path: str
+#
+#     :return: master_words_index dictionary
+#     :rtype: dict
+#     '''
+#     with open(master_file_path, "r") as file_obj:
+#         text_file_paths = [text_file_path.strip() for text_file_path in file_obj.readlines()]
+#
+#     return merge_words_indices([index(text_file_path) for text_file_path in text_file_paths])
 
 
 def parallel_indexer(master_file_path):
@@ -134,22 +134,20 @@ def parallel_indexer(master_file_path):
 
 
 if __name__ == '__main__':
+    # # generate input file from data folder
+    # open("input.txt", "w").writelines(["./data/"+i+"\n" for i in os.listdir("./data/")])
+
+    # # unified_indexer - does not divide the problem to subproblems - 12 seconds for 10,788 docs in reuters corpus
     # start_time = time.time()
     # print(unified_indexer("./input.txt")["the"])
     # print('Unified indexer took {} seconds'.format((time.time() - start_time)))
-    #
+
+    # # serial_indexer - divide and conquer with merge - 15 seconds for 10,788 docs in reuters corpus
     # start_time = time.time()
     # print(serial_indexer("./input.txt")["the"])
     # print('Serial indexer took {} seconds'.format((time.time() - start_time)))
 
+    # # parallel_indexer - divide and conquer with merge - 5 seconds for 10,788 docs in reuters corpus
     start_time = time.time()
     print(parallel_indexer("./input.txt")["the"])
     print('Parallel indexer took {} seconds'.format((time.time() - start_time)))
-
-    # # generate input file
-    # open("input.txt", "w").writelines(["./data/"+i+"\n" for i in os.listdir("./data/")])
-
-    # # test
-    # print(index("./data/1")["the"])
-    # print(index("./data/10")["the"])
-    # print(merge_words_indices([index("./data/1"), index("./data/10")])["the"])
