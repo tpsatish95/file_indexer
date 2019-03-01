@@ -1,4 +1,4 @@
-# file_indexer
+# Parallel File Indexer
 
 - Pre-indexed search vs dynamic search in varying files
 - Assume, macOS and Linux
@@ -15,6 +15,8 @@
 - talk about bonus question
 - assumes the path is relative to app's path
 -  instruction to interact_with_api (install urllib)
+- point to large and small data
+- clear words and download words
 
 # License
 

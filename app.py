@@ -47,7 +47,7 @@ def index_files(path_to_master_file):
         logging.error("The indexing algorithm failed. " + json.dumps({"error": str(e)}))
         abort(500, {"is_success": False, "message": "Internal server error. See server logs for more details."})
 
-    return jsonify({"is_success": True, "message": "File indexing completed in " + str(stop - start) + "seconds."})
+    return jsonify({"is_success": True, "message": "File indexing completed"})
 
 
 @APP.route('/file-indexer/api/v1/search/<word>')
@@ -64,7 +64,7 @@ def search_files(word):
         else:
             return jsonify({"is_success": True, "message": "Word not found in any file!", "result": None})
     else:
-        return jsonify({"is_success": False, "message": "No files indexed yet. Call /file-indexer/api/v1/index/ first.", "result": None})
+        return jsonify({"is_success": False, "message": "No files indexed yet! Call /file-indexer/api/v1/index/ first.", "result": None})
 
 
 @APP.route('/file-indexer/api/v1/words')
@@ -78,7 +78,33 @@ def list_words_in_index():
     if MASTER_WORDS_INDEX:
         return jsonify({"is_success": True, "message": "Successfully retrived!", "result": list(MASTER_WORDS_INDEX.keys())})
     else:
-        return jsonify({"is_success": False, "message": "No files indexed yet. Call /file-indexer/api/v1/index/ first.", "result": None})
+        return jsonify({"is_success": False, "message": "No files indexed yet! Call /file-indexer/api/v1/index/ first.", "result": None})
+
+
+@APP.route('/file-indexer/api/v1/clear-index')
+def clear_words_index():
+    global MASTER_WORDS_INDEX
+
+    requestUUID = uuid.uuid4()
+    logging.info("Processing request id:", str(requestUUID))
+    logging.info("Request from ip: " + str(request.remote_addr) + ", url: " + str(request.url))
+
+    MASTER_WORDS_INDEX = None
+    return jsonify({"is_success": True, "message": "Successfully cleared master words index!"})
+
+
+@APP.route('/file-indexer/api/v1/download-index')
+def download_words_index():
+    global MASTER_WORDS_INDEX
+
+    requestUUID = uuid.uuid4()
+    logging.info("Processing request id:", str(requestUUID))
+    logging.info("Request from ip: " + str(request.remote_addr) + ", url: " + str(request.url))
+
+    if MASTER_WORDS_INDEX:
+        return jsonify({"is_success": True, "message": "Successfully retrived master words index!", "result": MASTER_WORDS_INDEX})
+    else:
+        return jsonify({"is_success": False, "message": "No files indexed yet! Call /file-indexer/api/v1/index/ first.", "result": None})
 
 
 if __name__ == '__main__':

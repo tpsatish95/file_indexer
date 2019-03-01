@@ -1,0 +1,77 @@
+{
+    "!": {
+        "file_wise_counts": {
+            "test_file_1.txt": 1,
+            "test_file_2.txt": 1
+        },
+        "total_count": 2
+    },
+    "'s": {
+        "file_wise_counts": {
+            "test_file_1.txt": 1,
+            "test_file_2.txt": 1
+        },
+        "total_count": 2
+    },
+    ",": {
+        "file_wise_counts": {
+            "test_file_1.txt": 1,
+            "test_file_2.txt": 1
+        },
+        "total_count": 2
+    },
+    "a": {
+        "file_wise_counts": {
+            "test_file_1.txt": 1,
+            "test_file_2.txt": 1
+        },
+        "total_count": 2
+    },
+    "an": {
+        "file_wise_counts": {
+            "test_file_1.txt": 1,
+            "test_file_2.txt": 1
+        },
+        "total_count": 2
+    },
+    "hello": {
+        "file_wise_counts": {
+            "test_file_1.txt": 2,
+            "test_file_2.txt": 2
+        },
+        "total_count": 4
+    },
+    "pikachu": {
+        "file_wise_counts": {
+            "test_file_1.txt": 1,
+            "test_file_2.txt": 1
+        },
+        "total_count": 2
+    },
+    "the": {
+        "file_wise_counts": {
+            "test_file_1.txt": 3,
+            "test_file_2.txt": 3
+        },
+        "total_count": 6
+    },
+    "this": {
+        "file_wise_counts": {
+            "test_file_1.txt": 2,
+            "test_file_2.txt": 2
+        },
+        "total_count": 4
+    },
+    "universe": {
+        "file_wise_counts": {
+            "test_file_2.txt": 1
+        },
+        "total_count": 1
+    },
+    "world": {
+        "file_wise_counts": {
+            "test_file_1.txt": 1
+        },
+        "total_count": 1
+    }
+}
