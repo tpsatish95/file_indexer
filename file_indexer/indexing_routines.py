@@ -53,6 +53,9 @@ def index(text_file_path):
 def merge_words_indices(words_indices):
     '''
     Merges a list of word indices into a single master_words_index at a file level for each word
+    If file already present, then the old file stats are replaced with new stats
+        - This assumes the words_indices is chronologically ordered,
+          with the latest info at the end of the list
 
     :param words_indices: list of word indices
     :type words_indices: list
@@ -64,7 +67,11 @@ def merge_words_indices(words_indices):
 
     for words_index in words_indices:
         for word in words_index:
-            master_words_index[word]["file_wise_counts"].update(words_index[word]["file_wise_counts"])
+            for file_name in words_index[word]["file_wise_counts"]:
+                if file_name in master_words_index[word]["file_wise_counts"]:
+                    master_words_index[word]["total_count"] -= master_words_index[word]["file_wise_counts"][file_name]
+                master_words_index[word]["file_wise_counts"][file_name] = words_index[word]["file_wise_counts"][file_name]
+
             master_words_index[word]["total_count"] += words_index[word]["total_count"]
 
     return master_words_index

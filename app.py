@@ -1,9 +1,3 @@
-'''
-Flask APP that parses the incoming booking requests and
-Uses the select_partner module to get the optimal list of partners
-That can service the list of input theatre locations.
-'''
-
 import json
 import logging
 import uuid

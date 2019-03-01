@@ -11,9 +11,10 @@
 - py.test -s --cov=file_indexer .
 - copy readme from mgcpy
 - I am assuming the files are static and not dynamically written in real time
-- will merge old and new index
+- will merge old and new index, already present files are replaced with new stats
 - talk about bonus question
 - assumes the path is relative to app's path
+-  instruction to interact_with_api (install urllib)
 
 # License
 
