@@ -65,7 +65,7 @@ def test_parallel_indexer():
     print("parallel_indexer() function - passed!")
 
 
-def test_parallel_indexer_time_taken():
+def test_parallel_indexer_benchmark():
     start_time = time.time()
     parallel_indexer("./input.txt")
     time_taken = time.time() - start_time

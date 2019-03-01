@@ -9,6 +9,11 @@
 - It is case sensitive and supports 'latin_1' encoding only, it can easily be extended to support these features as well.
 - dump to json
 - py.test -s --cov=file_indexer .
+- copy readme from mgcpy
+- I am assuming the files are static and not dynamically written in real time
+- will merge old and new index
+- talk about bonus question
+- assumes the path is relative to app's path
 
 # License
 
