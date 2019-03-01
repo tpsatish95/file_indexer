@@ -5,7 +5,7 @@
 - Docker
 - Tokenizer (NLTK word_tokenize on the other hand is based on a TreebankWordTokenizer, see the docs here. It basically tokenizes text like in the Penn Treebank.)
 - Reuters Corpus contains 10,788 news documents totaling 1.3 million words (will help with unit tests as well)
-- Parallel indexing (3-4 time faster than serial)
+- Parallel indexing (3 times faster than serial and 2-3 times faster than unified) - based on divide and conquer mechanism - scales really well
 
 # License
 
