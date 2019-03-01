@@ -8,11 +8,12 @@ import requests
 def get_option():
     print("\nChoose one of these options:")
     print("1. Index new files (Note: will merge with already indexed files)")
-    print("2. Search for a word")
-    print("3. List all words")
-    print("4. Clear words index")
-    print("5. Download words index as JSON")
-    print("6. Exit")
+    print("2. Display word counts")
+    print("3. Search for a word")
+    print("4. List all words")
+    print("5. Clear words index")
+    print("6. Download words index as JSON")
+    print("7. Exit")
 
     return input()
 
@@ -26,8 +27,8 @@ if __name__ == '__main__':
 
     while True:
         option = get_option()
-        while option not in ("1", "2", "3", "4", "5", "6"):
-            print("\nPlease pick one from 1, 2, 3, 4, 5, or 6.")
+        while option not in set([str(i) for i in range(1, 8)]):
+            print("\nPlease pick one from 1 to 7.")
             option = get_option()
 
         if option == "1":
@@ -48,6 +49,14 @@ if __name__ == '__main__':
                 print(response)
 
         elif option == "2":
+            response = requests.get("http://localhost:8080/file-indexer/api/v1/word-counts/")
+            json_data = response.json()
+
+            print("\n"+json_data["message"])
+            print("\nAll words indexed with counts:")
+            print(json.dumps(json_data["result"], indent=4, sort_keys=True))
+
+        elif option == "3":
             print("\nEnter word to search:")
             word = input()
 
@@ -58,7 +67,7 @@ if __name__ == '__main__':
             print("\nThe statistics for the word:")
             print(json.dumps(json_data["result"], indent=4, sort_keys=True))
 
-        elif option == "3":
+        elif option == "4":
             response = requests.get("http://localhost:8080/file-indexer/api/v1/words/")
             json_data = response.json()
 
@@ -66,11 +75,11 @@ if __name__ == '__main__':
             print("\nAll words indexed:")
             print(json.dumps(json_data["result"], indent=4, sort_keys=True))
 
-        elif option == "4":
+        elif option == "5":
             response = requests.get("http://localhost:8080/file-indexer/api/v1/clear-index/")
             print(response.json()["message"])
 
-        elif option == "5":
+        elif option == "6":
             response = requests.get("http://localhost:8080/file-indexer/api/v1/download-index/")
             json_data = response.json()
 
