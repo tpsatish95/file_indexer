@@ -3,6 +3,7 @@
 _build
 _static
 _templates
+words_index.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
