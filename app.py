@@ -16,7 +16,7 @@ MASTER_WORDS_INDEX = None
 
 @APP.route('/')
 def root():
-    return jsonify("The File Indexer API is up and running!")
+    return jsonify("The Parallel File Indexer API is up and running!")
 
 
 @APP.route('/file-indexer/api/v1/index/<path:path_to_master_file>')
@@ -35,7 +35,8 @@ def index_files(path_to_master_file):
 
         start = time()
         if MASTER_WORDS_INDEX:
-            MASTER_WORDS_INDEX = merge_words_indices([MASTER_WORDS_INDEX, parallel_indexer(path_to_master_file)])
+            MASTER_WORDS_INDEX = merge_words_indices(
+                [MASTER_WORDS_INDEX, parallel_indexer(path_to_master_file)])
         else:
             MASTER_WORDS_INDEX = parallel_indexer(path_to_master_file)
         stop = time()
@@ -44,7 +45,8 @@ def index_files(path_to_master_file):
 
     except Exception as e:
         APP.logger.error("The indexing algorithm failed. " + json.dumps({"error": str(e)}))
-        abort(500, {"is_success": False, "message": "Internal server error. See server logs for more details."})
+        abort(500, {"is_success": False,
+                    "message": "Internal server error. See server logs for more details."})
 
     return jsonify({"is_success": True, "message": "File indexing completed!"})
 

@@ -3,7 +3,9 @@
 - [Overview](#overview)
 - [Algorithm](#algorithm)
 - [System Requirements](#system-requirements)
-- [Installation Guide](#installation-guide)
+- [Setup and Testing Guide](#setup-and-testing-guide)
+- [How To](#how-to)
+- [Functionalities and Endpoints](#functionalities-and-endpoints)
 - [Future Scope](#future-scope)
 - [License](#license)
 
@@ -61,7 +63,7 @@ This package has been tested on the following systems:
 It is untested but should work on Windows too.
 
 ### Python Dependencies
-`file_indexer` mainly depends on the following Python packages.
+`file_indexer` mainly depends on the following Python packages. It runs on Python 3.6.
 
 ```
 nltk
@@ -71,33 +73,68 @@ pytest
 pytest-cov
 ```
 
-# Installation Guide:
+# Setup and Testing Guide:
 
-- Install python 3.6 https://docs.python-guide.org/starting/installation/ or https://realpython.com/installing-python/
-- Install pip: https://pip.pypa.io/en/stable/installing/
-- Then, pip3 install -r requirements.txt, python3 -m nltk.downloader punkt or setup.sh
+Assuming that the system just has the base OS installed, follow the below instructions to setup and run the Flask API Server (`app.py`) and interface script `interact_with_api.py`
 
+## Setup
+- Install Python 3.6 from either the [Hitchhiker's Guide to Python](https://docs.python-guide.org/starting/installation/) or [Real Python](https://realpython.com/installing-python/). It has guides for macOS, Linux, and Windows as well.
+- Install pip:
+  - Follow instructions [here](https://pip.pypa.io/en/stable/installing/)
+  - OR Just download [get-pip.py](https://bootstrap.pypa.io/get-pip.py) and run `python3 get-pip.py`.
+- Install Python dependencies:
+  - Run the following commands (from package root):
+        pip3 install -r requirements.txt
+        python3 -m nltk.downloader punkt
+  - OR just run `source setup.sh` on macOS or Linux.
 
-- py.test -s --cov=file_indexer .
-- unit tests
+## Unit tests and Coverage
+In order to run the unit tests and report coverage, from the package root run the following command:
 
-How to use the code:
-- Then run app, python3 app.py
-- Then run interact_with_api, python3 interact_with_api.py
+    py.test -s --cov=file_indexer .
 
-- API and CLI that interacts with the API
-- list all endpoints and uses
-- dump to json
-- clear words and download words
-- talk about bonus question
-- instruction to interact_with_api
-- point to large and small data
+# How To
+### Run the Flask API Server
+From a new terminal window, go the package root and run the following command:
+
+    python3 app.py
+
+This will be where we can see the live API server logs.
+
+### Interact with the Flask API
+The endpoints are pretty straight forward to use, (refer to [Functionalities and Endpoints](#functionalities-and-endpoints)), however `interact_with_api.py` is a script that wraps all the API calls for you, to use it run:
+
+    python3 interact_with_api.py
+
+### Test Data
+When prompted for test data (master file path), use either of the following:
+- `input.txt`
+  - This is the Reuters corpus and has 10,788 news documents and 1.3 million words.
+- `file_indexer/unit_tests/data/index.txt`
+  - This is some dummy data that I created to tractably verify if the algorithm works.
+
+# Functionalities and Endpoints
+The following functionalities are supported by the app:
+1. Index new files (`/file-indexer/api/v1/index/<path:path_to_master_file>`)
+  - This accepts a master file path, that has the absolute paths of all the files to be indexed and creates an in-memory index which can be queried later.
+  - Note: will merge with already indexed files using the **merging algorithm**, if we do not clear the index before indexing new files.
+2. Display word counts (`/file-indexer/api/v1/word-counts`)
+  - This just lists all the words in the index sorted alphabetically along with their frequency counts.
+3. Search for a word (`/file-indexer/api/v1/search/<word>`)
+  - Once the index is created, this helps to search for a specific `word` in the index and display all the files it occurs in, along with the file-wise and across files frequencies.
+4. List all words (`/file-indexer/api/v1/words`)
+  - This just lists all the words in the index.
+5. Clear words index  (`/file-indexer/api/v1/clear-index`)
+  - This is used to clear the in-memory index of all words to start fresh.
+6. Download words index as JSON (`/file-indexer/api/v1/download-index`)
+  - This is used to download the master index from in-memory and dump it into a JSON file for later use.
 
 # Future Scope
-- future scope
-- dynamic search in varying files (I am assuming the files are static and not dynamically written in real time)
-- Docker (talk bout why you removed docker)
-- It is case sensitive and supports 'latin_1' encoding only, it can easily be extended to support these features as well.
+- This algorithm works under an assumption that the files it is tracking are static and are not dynamically updated. But, if the files to be tracked change dynamically, I would engineer a solution based off of: [Knuth–Morris–Pratt algorithm](https://en.wikipedia.org/wiki/Knuth%E2%80%93Morris%E2%80%93Pratt_algorithm).
+- Dockerize the app. Intially the app was Dockerized, but then I removed it when I realized that, it had to deal with absolute paths from the host machine, which makes it a hassle.
+- Now the algorithm is case sensitive and supports only `latin_1` encoded files. Can support more variants.
+- Use already present docstrings to generate Sphinx documentation on RTD.
+- Use **Twokenize** to chop words, etc.
 
 # License
 

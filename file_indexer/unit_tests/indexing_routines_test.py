@@ -22,7 +22,8 @@ def test_index():
     # dump to a json, so that we can easily compare the two nested python dicts,
     # normal == won't work on such dicts
     expected_words_index_json = json.dumps(expected_words_index, sort_keys=True)
-    actual_words_index_json = json.dumps(index("./file_indexer/unit_tests/data/test_file_1.txt"), sort_keys=True)
+    actual_words_index_json = json.dumps(
+        index("./file_indexer/unit_tests/data/test_file_1.txt"), sort_keys=True)
 
     assert actual_words_index_json == expected_words_index_json, "index() function - failed!"
 
@@ -33,7 +34,8 @@ def test_merge_words_indices():
     file1_the_count = index("./data/1")["the"]["total_count"]
     file2_the_count = index("./data/10")["the"]["total_count"]
 
-    total_the_count = merge_words_indices([index("./data/1"), index("./data/10")])["the"]["total_count"]
+    total_the_count = merge_words_indices(
+        [index("./data/1"), index("./data/10")])["the"]["total_count"]
 
     assert file1_the_count+file2_the_count == total_the_count, "merge_words_indices() function - failed!"
 
@@ -66,10 +68,10 @@ def test_parallel_indexer():
 
 
 def test_parallel_indexer_benchmark():
+    # This is not a unit test. This just benchmarks the parallel indexer.
+
     start_time = time.time()
     parallel_indexer("./input.txt")
     time_taken = time.time() - start_time
-
-    assert time_taken < 16, "parallel_indexer() is doing worse than unified serial indexer"
 
     print("\nThe parallel file indexer took {} seconds to index the Reuters corpus (10,788 docs)".format(time_taken))

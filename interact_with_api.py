@@ -22,7 +22,7 @@ if __name__ == '__main__':
     try:
         base_api = requests.get("http://localhost:8080")
     except Exception:
-        print("Please run the flask app with 'python app.py' or run the dockerized version as in readme.md, then run this file.")
+        print("Please run the flask app with 'python3 app.py', then run this file.")
         sys.exit(1)
 
     while True:
