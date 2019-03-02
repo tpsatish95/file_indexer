@@ -77,7 +77,7 @@ if __name__ == '__main__':
 
         elif option == "5":
             response = requests.get("http://localhost:8080/file-indexer/api/v1/clear-index/")
-            print(response.json()["message"])
+            print("\n"+response.json()["message"])
 
         elif option == "6":
             response = requests.get("http://localhost:8080/file-indexer/api/v1/download-index/")

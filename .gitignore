@@ -1,9 +1,12 @@
+# Project
+words_index.json
+
 # Mac
 .DS_Store
 _build
 _static
 _templates
-words_index.json
+.bash_history
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
